@@ -77,7 +77,9 @@
      <div class="color-swatch" data-color="#9400D3" style="background:#9400D3" title="Violet"></div> 
      <div class="color-swatch" data-color="#FFFFFF" style="background:#FFFFFF; border: 2px solid #000;" title="White"></div> 
     </div> <label>Brush size: <input type="range" id="brushSize" min="1" max="50" value="5"></label> <button id="eraserBtn">Eraser Off</button> <button id="undoBtn">Undo</button> <button id="redoBtn">Redo</button> 
-    <input type="file" id="uploadImg" accept="image/*"> <button id="saveBtn">Save</button> 
+    <input type="file" id="uploadImg" accept="image/*"> <button id="saveBtn">Save</button> <br><br>
+<label for="scaleRange">Scale Image:</label>
+<input type="range" id="scaleRange" min="0.1" max="3" step="0.1" value="1">
    </div> 
    <div id="container"> 
     <canvas id="canvas" width="2500" height="1500"></canvas> 
