@@ -1,91 +1,99 @@
 <!doctype html>
-<html lang="en"> 
- <head> 
-  <meta charset="UTF-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1"> 
-  <title>Multi-Page Paint</title> 
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi-Page Paint</title>
   <style>
-  body, html {
-    margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: Arial, sans-serif;
-    background: #eee;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-  #toolbar {
-    background: #333;
-    color: white;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  #toolbar button, #toolbar input[type="range"], #toolbar input[type="file"] {
-    cursor: pointer;
-    font-size: 14px;
-  }
-  #colors {
-    display: flex;
-    gap: 5px;
-  }
-  .color-swatch {
-    width: 24px;
-    height: 24px;
-    border: 2px solid #fff;
-    box-shadow: 0 0 2px rgba(0,0,0,0.5);
-    cursor: pointer;
-  }
-  .color-swatch.selected {
-    border-color: yellow;
-    box-shadow: 0 0 5px yellow;
-  }
-  #container {
-    flex: 1;
-    overflow: auto;
-    background: white;
-    border-top: 3px solid #333;
-  }
-  #canvas {
-    background: white;
-    display: block;
-    width: 2500px;
-    height: 1500px;
-  }
-  #main {
-    height: calc(100vh - 48px);
-    display: flex;
-    flex-direction: column;
-  }
-  #pageInfo {
-    color: white;
-    font-weight: bold;
-    user-select: none;
-  }
-</style> 
- </head> 
- <body> 
-  <div id="main"> 
-   <div id="toolbar"> <button id="prevPageBtn">Prev Page</button> <span id="pageInfo">Page 1 / 10</span> <button id="nextPageBtn">Next Page</button> 
-    <div id="colors"> 
-     <div class="color-swatch" data-color="#000000" style="background:#000000" title="Black"></div> 
-     <div class="color-swatch" data-color="#FF0000" style="background:#FF0000" title="Red"></div> 
-     <div class="color-swatch" data-color="#FF7F00" style="background:#FF7F00" title="Orange"></div> 
-     <div class="color-swatch" data-color="#FFFF00" style="background:#FFFF00" title="Yellow"></div> 
-     <div class="color-swatch" data-color="#00FF00" style="background:#00FF00" title="Green"></div> 
-     <div class="color-swatch" data-color="#0000FF" style="background:#0000FF" title="Blue"></div> 
-     <div class="color-swatch" data-color="#4B0082" style="background:#4B0082" title="Indigo"></div> 
-     <div class="color-swatch" data-color="#9400D3" style="background:#9400D3" title="Violet"></div> 
-     <div class="color-swatch" data-color="#FFFFFF" style="background:#FFFFFF; border: 2px solid #000;" title="White"></div> 
-    </div> <label>Brush size: <input type="range" id="brushSize" min="1" max="50" value="5"></label> <button id="eraserBtn">Eraser Off</button> <button id="undoBtn">Undo</button> <button id="redoBtn">Redo</button> 
-    <input type="file" id="uploadImg" accept="image/*"> <button id="saveBtn">Save</button> <br><br>
-<label for="scaleRange">Scale Image:</label>
-<input type="range" id="scaleRange" min="0.1" max="3" step="0.1" value="1">
-   </div> 
-   <div id="container"> 
-    <canvas id="canvas" width="2500" height="1500"></canvas> 
-   </div> 
-  </div> 
-  <script>
+    body, html {
+      margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: Arial, sans-serif;
+      background: #eee;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    #toolbar {
+      background: #333;
+      color: white;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    #toolbar button, #toolbar input[type="range"], #toolbar input[type="file"] {
+      cursor: pointer;
+      font-size: 14px;
+    }
+    #colors {
+      display: flex;
+      gap: 5px;
+    }
+    .color-swatch {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #fff;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+      cursor: pointer;
+    }
+    .color-swatch.selected {
+      border-color: yellow;
+      box-shadow: 0 0 5px yellow;
+    }
+    #container {
+      flex: 1;
+      overflow: auto;
+      background: white;
+      border-top: 3px solid #333;
+    }
+    #canvas {
+      background: white;
+      display: block;
+      width: 2500px;
+      height: 1500px;
+    }
+    #main {
+      height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+    }
+    #pageInfo {
+      color: white;
+      font-weight: bold;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <div id="toolbar">
+      <button id="prevPageBtn">Prev Page</button>
+      <span id="pageInfo">Page 1 / 10</span>
+      <button id="nextPageBtn">Next Page</button>
+      <div id="colors">
+        <div class="color-swatch" data-color="#000000" style="background:#000000" title="Black"></div>
+        <div class="color-swatch" data-color="#FF0000" style="background:#FF0000" title="Red"></div>
+        <div class="color-swatch" data-color="#FF7F00" style="background:#FF7F00" title="Orange"></div>
+        <div class="color-swatch" data-color="#FFFF00" style="background:#FFFF00" title="Yellow"></div>
+        <div class="color-swatch" data-color="#00FF00" style="background:#00FF00" title="Green"></div>
+        <div class="color-swatch" data-color="#0000FF" style="background:#0000FF" title="Blue"></div>
+        <div class="color-swatch" data-color="#4B0082" style="background:#4B0082" title="Indigo"></div>
+        <div class="color-swatch" data-color="#9400D3" style="background:#9400D3" title="Violet"></div>
+        <div class="color-swatch" data-color="#FFFFFF" style="background:#FFFFFF; border: 2px solid #000;" title="White"></div>
+      </div>
+      <label>Brush size: <input type="range" id="brushSize" min="1" max="50" value="5"></label>
+      <button id="eraserBtn">Eraser Off</button>
+      <button id="undoBtn">Undo</button>
+      <button id="redoBtn">Redo</button>
+      <input type="file" id="uploadImg" accept="image/*">
+      <label>Scale: <input type="range" id="imgScale" min="10" max="300" value="100">%</label>
+      <button id="placeImgBtn">Place Image</button>
+      <button id="saveBtn">Save</button>
+    </div>
+    <div id="container">
+      <canvas id="canvas" width="2500" height="1500"></canvas>
+    </div>
+  </div><script>
 (() => {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
@@ -95,254 +103,214 @@
   const redoBtn = document.getElementById('redoBtn');
   const uploadImg = document.getElementById('uploadImg');
   const saveBtn = document.getElementById('saveBtn');
+  const imgScaleInput = document.getElementById('imgScale');
+  const placeImgBtn = document.getElementById('placeImgBtn');
   const colors = document.querySelectorAll('.color-swatch');
   const prevPageBtn = document.getElementById('prevPageBtn');
   const nextPageBtn = document.getElementById('nextPageBtn');
   const pageInfo = document.getElementById('pageInfo');
 
-  let drawing = false;
+  let drawing = false, eraserOn = false;
+  let brushColor = '#000000';
   let lastPos = { x: 0, y: 0 };
   let brushSize = brushSizeInput.value;
-  let brushColor = '#000000';
-  let eraserOn = false;
-
   const TOTAL_PAGES = 10;
   let currentPage = 1;
+  const pages = Array.from({ length: TOTAL_PAGES }, () => ({ undoStack: [], redoStack: [], imageData: null }));
 
-  // Each page stores its own:
-  // canvasImageData: ImageData or base64 string for saving page content
-  // undoStack: array of ImageData for undo
-  // redoStack: array of ImageData for redo
-  const pages = [];
-  for(let i=0; i<TOTAL_PAGES; i++) {
-    pages.push({
-      undoStack: [],
-      redoStack: [],
-      imageData: null
-    });
-  }
+  let tempImage = null;
+  let tempImageX = 0;
+  let tempImageY = 0;
+  let isDraggingImage = false;
 
-  // Initialize canvas white background
   function clearCanvas() {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
-  function saveCurrentStateToUndo() {
+  function saveState() {
     const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    if (pages[currentPage-1].undoStack.length >= 30) pages[currentPage-1].undoStack.shift();
-    pages[currentPage-1].undoStack.push(imgData);
-    pages[currentPage-1].redoStack = [];
+    const page = pages[currentPage - 1];
+    if (page.undoStack.length >= 30) page.undoStack.shift();
+    page.undoStack.push(imgData);
+    page.redoStack = [];
     updateUndoRedoButtons();
   }
 
   function updateUndoRedoButtons() {
-    undoBtn.disabled = pages[currentPage-1].undoStack.length === 0;
-    redoBtn.disabled = pages[currentPage-1].redoStack.length === 0;
+    const page = pages[currentPage - 1];
+    undoBtn.disabled = page.undoStack.length === 0;
+    redoBtn.disabled = page.redoStack.length === 0;
   }
 
-  function restoreStateFromStack(stackFrom, stackTo) {
-    if (stackFrom.length === 0) return;
-    const imgData = stackFrom.pop();
-    stackTo.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+  function restoreStack(from, to) {
+    const page = pages[currentPage - 1];
+    if (from.length === 0) return;
+    const imgData = from.pop();
+    to.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
     ctx.putImageData(imgData, 0, 0);
     updateUndoRedoButtons();
   }
 
-  // Draw helpers
-  function startDrawing(x, y) {
-    drawing = true;
-    lastPos.x = x;
-    lastPos.y = y;
-    saveCurrentStateToUndo();
+  function loadPage(num) {
+    clearCanvas();
+    const pg = pages[num - 1];
+    if (pg.imageData) ctx.putImageData(pg.imageData, 0, 0);
+    pageInfo.textContent = `Page ${num} / ${TOTAL_PAGES}`;
+    updateUndoRedoButtons();
   }
 
-  function drawLine(x, y) {
-    if (!drawing) return;
-    ctx.beginPath();
-    ctx.moveTo(lastPos.x, lastPos.y);
-    ctx.lineTo(x, y);
-    ctx.stroke();
-    lastPos.x = x;
-    lastPos.y = y;
+  function savePage() {
+    pages[currentPage - 1].imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   }
 
-  function stopDrawing() {
-    drawing = false;
-  }
-
-  function getPos(evt) {
+  function getTouchPos(e) {
     const rect = canvas.getBoundingClientRect();
-    let clientX, clientY;
-    if (evt.touches && evt.touches.length) {
-      clientX = evt.touches[0].clientX;
-      clientY = evt.touches[0].clientY;
-    } else {
-      clientX = evt.clientX;
-      clientY = evt.clientY;
-    }
+    const touch = e.touches[0];
     return {
-      x: clientX - rect.left,
-      y: clientY - rect.top
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
     };
   }
 
-  // Load page content into canvas
-  function loadPage(pageNum) {
-    const page = pages[pageNum-1];
-    clearCanvas();
-    if (page.imageData) {
-      ctx.putImageData(page.imageData, 0, 0);
+  function isOverImage(x, y) {
+    if (!tempImage) return false;
+    const scale = imgScaleInput.value / 100;
+    return (
+      x >= tempImageX &&
+      y >= tempImageY &&
+      x <= tempImageX + tempImage.width * scale &&
+      y <= tempImageY + tempImage.height * scale
+    );
+  }
+
+  function redrawTempImage() {
+    loadPage(currentPage);
+    if (tempImage) {
+      const scale = imgScaleInput.value / 100;
+      ctx.drawImage(tempImage, tempImageX, tempImageY, tempImage.width * scale, tempImage.height * scale);
     }
-    updateUndoRedoButtons();
-    pageInfo.textContent = `Page ${pageNum} / ${TOTAL_PAGES}`;
   }
 
-  // Save current canvas to page.imageData
-  function savePage() {
-    pages[currentPage-1].imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  }
+  canvas.addEventListener('mousedown', e => {
+    if (tempImage && isOverImage(e.offsetX, e.offsetY)) {
+      isDraggingImage = true;
+      tempImage.dragOffsetX = e.offsetX - tempImageX;
+      tempImage.dragOffsetY = e.offsetY - tempImageY;
+      return;
+    }
+    drawing = true;
+    lastPos = { x: e.offsetX, y: e.offsetY };
+    saveState();
+  });
 
-  // Initial canvas setup
+  canvas.addEventListener('mousemove', e => {
+    if (isDraggingImage) {
+      tempImageX = e.offsetX - tempImage.dragOffsetX;
+      tempImageY = e.offsetY - tempImage.dragOffsetY;
+      redrawTempImage();
+      return;
+    }
+    if (!drawing) return;
+    ctx.beginPath();
+    ctx.moveTo(lastPos.x, lastPos.y);
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    lastPos = { x: e.offsetX, y: e.offsetY };
+  });
+
+  canvas.addEventListener('mouseup', () => {
+    drawing = false;
+    isDraggingImage = false;
+    savePage();
+  });
+
+  canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const pos = getTouchPos(e);
+    if (tempImage && isOverImage(pos.x, pos.y)) {
+      isDraggingImage = true;
+      tempImage.dragOffsetX = pos.x - tempImageX;
+      tempImage.dragOffsetY = pos.y - tempImageY;
+    } else {
+      drawing = true;
+      lastPos = pos;
+      saveState();
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    const pos = getTouchPos(e);
+    if (isDraggingImage) {
+      tempImageX = pos.x - tempImage.dragOffsetX;
+      tempImageY = pos.y - tempImage.dragOffsetY;
+      redrawTempImage();
+    } else if (drawing) {
+      ctx.beginPath();
+      ctx.moveTo(lastPos.x, lastPos.y);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      lastPos = pos;
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', e => {
+    e.preventDefault();
+    drawing = false;
+    isDraggingImage = false;
+    savePage();
+  });
+
+  placeImgBtn.addEventListener('click', () => {
+    if (!tempImage) return;
+    saveState();
+    const scale = imgScaleInput.value / 100;
+    ctx.drawImage(tempImage, tempImageX, tempImageY, tempImage.width * scale, tempImage.height * scale);
+    savePage();
+    tempImage = null;
+  });
+
+  uploadImg.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    const img = new Image();
+    reader.onload = ev => {
+      img.onload = () => {
+        tempImage = img;
+        tempImageX = 100;
+        tempImageY = 100;
+        redrawTempImage();
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  });
+
+  saveBtn.addEventListener('click', () => {
+    const link = document.createElement('a');
+    link.download = `page${currentPage}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
+  prevPageBtn.onclick = () => { savePage(); if (currentPage > 1) currentPage--; loadPage(currentPage); };
+  nextPageBtn.onclick = () => { savePage(); if (currentPage < TOTAL_PAGES) currentPage++; loadPage(currentPage); };
+  brushSizeInput.oninput = e => { brushSize = e.target.value; ctx.lineWidth = brushSize; };
+  eraserBtn.onclick = () => { eraserOn = !eraserOn; ctx.strokeStyle = eraserOn ? 'white' : brushColor; eraserBtn.textContent = eraserOn ? 'Eraser On' : 'Eraser Off'; };
+  undoBtn.onclick = () => { restoreStack(pages[currentPage - 1].undoStack, pages[currentPage - 1].redoStack); savePage(); };
+  redoBtn.onclick = () => { restoreStack(pages[currentPage - 1].redoStack, pages[currentPage - 1].undoStack); savePage(); };
+  colors.forEach(s => s.onclick = () => { colors.forEach(c => c.classList.remove('selected')); s.classList.add('selected'); brushColor = s.dataset.color; if (!eraserOn) ctx.strokeStyle = brushColor; });
+  colors[0].classList.add('selected');
+
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   ctx.strokeStyle = brushColor;
   ctx.lineWidth = brushSize;
   clearCanvas();
-
-  // Event listeners for drawing
-  canvas.addEventListener('mousedown', e => {
-    const pos = getPos(e);
-    startDrawing(pos.x, pos.y);
-  });
-
-  canvas.addEventListener('mousemove', e => {
-    if (!drawing) return;
-    const pos = getPos(e);
-    drawLine(pos.x, pos.y);
-  });
-
-  canvas.addEventListener('mouseup', () => {
-    stopDrawing();
-    savePage();
-  });
-  canvas.addEventListener('mouseout', () => {
-    if (drawing) {
-      stopDrawing();
-      savePage();
-    }
-  });
-
-  // Touch support
-  canvas.addEventListener('touchstart', e => {
-    e.preventDefault();
-    const pos = getPos(e);
-    startDrawing(pos.x, pos.y);
-  });
-
-  canvas.addEventListener('touchmove', e => {
-    e.preventDefault();
-    if (!drawing) return;
-    const pos = getPos(e);
-    drawLine(pos.x, pos.y);
-  });
-
-  canvas.addEventListener('touchend', e => {
-    e.preventDefault();
-    stopDrawing();
-    savePage();
-  });
-
-  // Toolbar events
-  brushSizeInput.addEventListener('input', e => {
-    brushSize = e.target.value;
-    ctx.lineWidth = brushSize;
-  });
-
-  eraserBtn.addEventListener('click', () => {
-    eraserOn = !eraserOn;
-    if (eraserOn) {
-      ctx.strokeStyle = 'white';
-      eraserBtn.textContent = 'Eraser On';
-    } else {
-      ctx.strokeStyle = brushColor;
-      eraserBtn.textContent = 'Eraser Off';
-    }
-  });
-
-  colors.forEach(swatch => {
-    swatch.addEventListener('click', () => {
-      if (eraserOn) {
-        eraserOn = false;
-        eraserBtn.textContent = 'Eraser Off';
-      }
-      colors.forEach(s => s.classList.remove('selected'));
-      swatch.classList.add('selected');
-      brushColor = swatch.dataset.color;
-      ctx.strokeStyle = brushColor;
-    });
-  });
-
-  // Default select black color
-  colors[0].classList.add('selected');
-
-  undoBtn.addEventListener('click', () => {
-    restoreStateFromStack(pages[currentPage-1].undoStack, pages[currentPage-1].redoStack);
-    savePage();
-  });
-
-  redoBtn.addEventListener('click', () => {
-    restoreStateFromStack(pages[currentPage-1].redoStack, pages[currentPage-1].undoStack);
-    savePage();
-  });
-
-  uploadImg.addEventListener('change', e => {
-    if (!e.target.files[0]) return;
-    const file = e.target.files[0];
-    const img = new Image();
-    const reader = new FileReader();
-    reader.onload = function(event) {
-      img.onload = () => {
-        saveCurrentStateToUndo();
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        savePage();
-      }
-      img.src = event.target.result;
-    };
-    reader.readAsDataURL(file);
-    // reset input so same file can be uploaded again if needed
-    e.target.value = '';
-  });
-
-  saveBtn.addEventListener('click', () => {
-    const dataURL = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = dataURL;
-    link.download = `page${currentPage}.png`;
-    link.click();
-  });
-
-  // Page switching
-  prevPageBtn.addEventListener('click', () => {
-    savePage();
-    if (currentPage > 1) currentPage--;
-    loadPage(currentPage);
-  });
-
-  nextPageBtn.addEventListener('click', () => {
-    savePage();
-    if (currentPage < TOTAL_PAGES) currentPage++;
-    loadPage(currentPage);
-  });
-
-  // Load initial page
   loadPage(currentPage);
-
-  // Save page on window unload
-  window.addEventListener('beforeunload', () => {
-    savePage();
-  });
 })();
-</script> 
- 
-</body></html>
+</script></body>
+</html>
